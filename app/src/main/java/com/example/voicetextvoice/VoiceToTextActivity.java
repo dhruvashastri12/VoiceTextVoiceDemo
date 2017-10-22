@@ -19,6 +19,7 @@ import java.util.Locale;
 public class VoiceToTextActivity extends AppCompatActivity{
 
     private Button btnSpeak;
+    private Button btn_shareTxt;
     private TextView tvInputText;
 
     @Override
@@ -27,6 +28,7 @@ public class VoiceToTextActivity extends AppCompatActivity{
         setContentView(R.layout.voice_to_text);
 
         btnSpeak=(Button)findViewById(R.id.btn_speak);
+        btn_shareTxt = (Button)findViewById(R.id.btn_shareTxt);
         tvInputText=(TextView)findViewById(R.id.tv_input_text);
 
         btnSpeak.setOnClickListener(new View.OnClickListener() {
@@ -42,6 +44,19 @@ public class VoiceToTextActivity extends AppCompatActivity{
                 } catch (ActivityNotFoundException a) {
                     Toast.makeText(getApplicationContext(), "Sorry! Your device does not support speech input",
                             Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        btn_shareTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(tvInputText.getText().length() != 0){
+                    Intent sendIntent = new Intent();
+                    sendIntent.setAction(Intent.ACTION_SEND);
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, tvInputText.getText().toString());
+                    sendIntent.setType("text/plain");
+                    startActivity(Intent.createChooser(sendIntent, "Send To"));
                 }
             }
         });
